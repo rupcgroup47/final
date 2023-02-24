@@ -5,27 +5,14 @@ import { Link as RouterLink } from 'react-router-dom';
 // material-ui
 import { Box, Link, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
 
-// third-party
-import NumberFormat from 'react-number-format';
-
-// project import
-import Dot from 'components/@extended/Dot';
-
-function createData(trackingNo, name, fat, carbs, protein) {
-    return { trackingNo, name, fat, carbs, protein };
+function createData(userId, firstName, lastName, userEmail, userGender, userDepartment) {
+    return { userId, firstName, lastName, userEmail, userGender, userDepartment };
 }
 
-const rows = [
-    createData(84564564, 'Camera Lens', 40, 2, 40570),
-    createData(98764564, 'Laptop', 300, 0, 180139),
-    createData(98756325, 'Mobile', 355, 1, 90989),
-    createData(98652366, 'Handset', 50, 1, 10239),
-    createData(13286564, 'Computer Accessories', 100, 1, 83348),
-    createData(86739658, 'TV', 99, 0, 410780),
-    createData(13256498, 'Keyboard', 125, 2, 70999),
-    createData(98753263, 'Mouse', 89, 2, 10570),
-    createData(98753275, 'Desktop', 185, 1, 98063),
-    createData(98753291, 'Chair', 100, 0, 14001)
+const usersData = [
+    createData(84564564, 'אבי', 'לוי', 'avi@job.com', 'זכר', 'לוגיסטיקה'),
+    createData(84564533, 'יהל', 'שבח', 'yahel@job.com', 'נקבה', 'משאבי אנוש'),
+    createData(84564522, 'שיר', 'זיו', 'shir@job.com', 'נקבה', 'לוגיסטיקה')
 ];
 
 function descendingComparator(a, b, orderBy) {
@@ -58,35 +45,40 @@ function stableSort(array, comparator) {
 
 const headCells = [
     {
-        id: 'trackingNo',
-        align: 'left',
+        id: 'תעודת זהות',
+        align: 'right',
         disablePadding: false,
-        label: 'Tracking No.'
+        label: 'תעודת זהות'
     },
     {
-        id: 'name',
-        align: 'left',
+        id: 'שם פרטי',
+        align: 'right',
         disablePadding: true,
-        label: 'Product Name'
+        label: 'שם פרטי'
     },
     {
-        id: 'fat',
+        id: 'שם משפחה',
         align: 'right',
         disablePadding: false,
-        label: 'Total Order'
+        label: 'שם משפחה'
     },
     {
-        id: 'carbs',
-        align: 'left',
-        disablePadding: false,
-
-        label: 'Status'
-    },
-    {
-        id: 'protein',
+        id: 'אימייל',
         align: 'right',
         disablePadding: false,
-        label: 'Total Amount'
+        label: 'אימייל'
+    },
+    {
+        id: 'מגדר',
+        align: 'right',
+        disablePadding: false,
+        label: 'מגדר'
+    },
+    {
+        id: 'מחלקה',
+        align: 'right',
+        disablePadding: false,
+        label: 'מחלקה'
     }
 ];
 
@@ -116,42 +108,6 @@ OrderTableHead.propTypes = {
     orderBy: PropTypes.string
 };
 
-// ==============================|| ORDER TABLE - STATUS ||============================== //
-
-const OrderStatus = ({ status }) => {
-    let color;
-    let title;
-
-    switch (status) {
-        case 0:
-            color = 'warning';
-            title = 'Pending';
-            break;
-        case 1:
-            color = 'success';
-            title = 'Approved';
-            break;
-        case 2:
-            color = 'error';
-            title = 'Rejected';
-            break;
-        default:
-            color = 'primary';
-            title = 'None';
-    }
-
-    return (
-        <Stack direction="row" spacing={1} alignItems="center">
-            <Dot color={color} />
-            <Typography>{title}</Typography>
-        </Stack>
-    );
-};
-
-OrderStatus.propTypes = {
-    status: PropTypes.number
-};
-
 // ==============================|| ORDER TABLE ||============================== //
 
 export default function OrderTable() {
@@ -170,7 +126,8 @@ export default function OrderTable() {
                     position: 'relative',
                     display: 'block',
                     maxWidth: '100%',
-                    '& td, & th': { whiteSpace: 'nowrap' }
+                    '& td, & th': { whiteSpace: 'nowrap' },
+                    direction: 'rtl'
                 }}
             >
                 <Table
@@ -186,8 +143,8 @@ export default function OrderTable() {
                 >
                     <OrderTableHead order={order} orderBy={orderBy} />
                     <TableBody>
-                        {stableSort(rows, getComparator(order, orderBy)).map((row, index) => {
-                            const isItemSelected = isSelected(row.trackingNo);
+                        {stableSort(usersData, getComparator(order, orderBy)).map((row, index) => {
+                            const isItemSelected = isSelected(row.userId);
                             const labelId = `enhanced-table-checkbox-${index}`;
 
                             return (
@@ -197,22 +154,19 @@ export default function OrderTable() {
                                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                     aria-checked={isItemSelected}
                                     tabIndex={-1}
-                                    key={row.trackingNo}
+                                    key={row.userId}
                                     selected={isItemSelected}
                                 >
-                                    <TableCell component="th" id={labelId} scope="row" align="left">
+                                    <TableCell component="th" id={labelId} scope="row" align="right">
                                         <Link color="secondary" component={RouterLink} to="">
-                                            {row.trackingNo}
+                                            {row.userId}
                                         </Link>
                                     </TableCell>
-                                    <TableCell align="left">{row.name}</TableCell>
-                                    <TableCell align="right">{row.fat}</TableCell>
-                                    <TableCell align="left">
-                                        <OrderStatus status={row.carbs} />
-                                    </TableCell>
-                                    <TableCell align="right">
-                                        <NumberFormat value={row.protein} displayType="text" thousandSeparator prefix="$" />
-                                    </TableCell>
+                                    <TableCell align="right">{row.firstName}</TableCell>
+                                    <TableCell align="right">{row.lastName}</TableCell>
+                                    <TableCell align="right">{row.userEmail}</TableCell>
+                                    <TableCell align="right">{row.userGender}</TableCell>
+                                    <TableCell align="right">{row.userDepartment}</TableCell>
                                 </TableRow>
                             );
                         })}

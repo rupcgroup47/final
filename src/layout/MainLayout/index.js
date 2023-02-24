@@ -45,12 +45,19 @@ const MainLayout = () => {
     }, [drawerOpen]);
 
     return (
-        <Box sx={{ display: 'flex', width: '100%' }}>
+        <Box sx={{ display: 'flex', width: '100%', position: 'relative', float: 'right' }}>
             <Header open={open} handleDrawerToggle={handleDrawerToggle} />
             <Drawer open={open} handleDrawerToggle={handleDrawerToggle} />
-            <Box component="main" sx={{ width: '100%', flexGrow: 1, p: { xs: 2, sm: 3 } }}>
+            <Box component="main" sx={{ position: 'relative', float: 'right', width: '100%', flexGrow: 1, p: { xs: 2, sm: 3 } }}>
                 <Toolbar />
-                <Breadcrumbs navigation={navigation} title titleBottom card={false} divider={false} />
+                <Breadcrumbs
+                    sx={{ position: 'relative', float: 'right', direction: 'rtl' }}
+                    navigation={navigation}
+                    title
+                    titleBottom
+                    card={false}
+                    divider={false}
+                />
                 <Outlet />
             </Box>
         </Box>

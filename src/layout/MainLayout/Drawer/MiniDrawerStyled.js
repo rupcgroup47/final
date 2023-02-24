@@ -10,7 +10,9 @@ const openedMixin = (theme) => ({
     borderRight: `1px solid ${theme.palette.divider}`,
     transition: theme.transitions.create('width', {
         easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.enteringScreen
+        duration: theme.transitions.duration.enteringScreen,
+        position: 'relative',
+        float: 'right'
     }),
     overflowX: 'hidden',
     boxShadow: 'none'
@@ -19,7 +21,9 @@ const openedMixin = (theme) => ({
 const closedMixin = (theme) => ({
     transition: theme.transitions.create('width', {
         easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen
+        duration: theme.transitions.duration.leavingScreen,
+        position: 'relative',
+        float: 'right'
     }),
     overflowX: 'hidden',
     width: 0,
@@ -31,6 +35,8 @@ const closedMixin = (theme) => ({
 
 const MiniDrawerStyled = styled(Drawer, { shouldForwardProp: (prop) => prop !== 'open' })(({ theme, open }) => ({
     width: drawerWidth,
+    position: 'relative',
+    float: 'right',
     flexShrink: 0,
     whiteSpace: 'nowrap',
     boxSizing: 'border-box',
